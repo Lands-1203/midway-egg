@@ -1,5 +1,5 @@
 import { UserLoginDTO } from "./../dto/user.dto";
-import { Inject, Controller, Post, Body } from "@midwayjs/decorator";
+import { Inject, Controller, Post, Query } from "@midwayjs/decorator";
 import { Context } from "egg";
 import { IGetUserResponse } from "../interface";
 import { UserService } from "../service/user.service";
@@ -17,7 +17,7 @@ export class APIController {
 
   @Post("/login")
   async getUserByUsernameAndPassword(
-    @Body() userDto: UserLoginDTO
+    @Query() userDto: UserLoginDTO
   ): Promise<IGetUserResponse> {
     const userInfo = await this.userService.getUserByUsernameAndPassword(
       userDto.username,
@@ -43,7 +43,7 @@ export class APIController {
   }
 
   @Post("/createUser")
-  async createUser(@Body() userDto: UserLoginDTO): Promise<IGetUserResponse> {
+  async createUser(@Query() userDto: UserLoginDTO): Promise<IGetUserResponse> {
     const id = await this.userService.saveUserEntity(
       userDto.username,
       userDto.password
