@@ -4,6 +4,7 @@ import { Context } from "egg";
 import { IGetUserResponse } from "../interface";
 import { UserService } from "../service/user.service";
 import { JwtService } from "@midwayjs/jwt";
+import { Validate } from "@midwayjs/validate";
 
 @Controller("/api/user")
 export class APIController {
@@ -16,6 +17,7 @@ export class APIController {
   jwtService: JwtService;
 
   @Post("/login")
+  @Validate()
   async getUserByUsernameAndPassword(
     @Query() userDto: UserLoginDTO
   ): Promise<IGetUserResponse> {
@@ -23,8 +25,8 @@ export class APIController {
       userDto.username,
       userDto.password
     );
-    const token = await this.jwtService.sign({ my: "payload" });
     if (userInfo) {
+      const token = await this.jwtService.sign({ userInfo: userInfo.id });
       return {
         code: 200,
         success: true,
@@ -43,6 +45,7 @@ export class APIController {
   }
 
   @Post("/createUser")
+  @Validate()
   async createUser(@Query() userDto: UserLoginDTO): Promise<IGetUserResponse> {
     const id = await this.userService.saveUserEntity(
       userDto.username,

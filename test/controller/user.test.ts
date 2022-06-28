@@ -13,7 +13,7 @@ describe("test/controller/user.test.ts", () => {
   afterAll(async () => {
     await close(app);
   });
-  
+
   it("should POST /api/user/createUser", async () => {
     // make request
     const result = await createHttpRequest(app)
@@ -34,6 +34,16 @@ describe("test/controller/user.test.ts", () => {
     // use expect by jest
     expect(result.status).toBe(200);
     expect(result.body.success).toBe(true);
+  });
+
+  it("should POST /api/user/login", async () => {
+    // make request
+    const result = await createHttpRequest(app)
+      .post("/api/user/login")
+      .query({ username: "lands" });
+
+    // use expect by jest
+    expect(result.status).not.toBe(200);
   });
 
   it("should POST /api/user/login", async () => {
