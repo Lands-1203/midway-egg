@@ -5,8 +5,9 @@ export interface IUserOptions {
   uid: string;
 }
 
-export interface IGetUserResponse<T> {
+export interface IGetUserResponse {
+  code?: number;
   success: boolean;
   message: string;
-  data: T;
+  data: any;
 }

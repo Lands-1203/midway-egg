@@ -1,5 +1,4 @@
 import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core';
-import path = require('path');
 import { UserEntity } from '../entity/user.entity';
 
 export default (appInfo: MidwayAppInfo) => {
@@ -12,13 +11,13 @@ export default (appInfo: MidwayAppInfo) => {
     // security: {
     //   csrf: false,
     // },
-    // jwt: {
-    //   secret: 'jwtsecret', // fs.readFileSync('xxxxx.key')
-    //   expiresIn: '2d', // https://github.com/vercel/ms
-    // },
+    jwt: {
+      secret: 'jwtsecret', // fs.readFileSync('xxxxx.key')
+      expiresIn: '2d', // https://github.com/vercel/ms
+    },
     orm: {
-      type: 'sqlite',
-      database: path.join(__dirname, '../../user.db'),
+      type: "sqlite",
+      database: ":memory:",
       dropSchema: true,
       entities: [UserEntity],
       synchronize: true,

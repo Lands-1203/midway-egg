@@ -1,7 +1,7 @@
-import { Provide } from '@midwayjs/decorator';
-import { InjectEntityModel } from '@midwayjs/orm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../entity/user.entity';
+import { Provide } from "@midwayjs/decorator";
+import { InjectEntityModel } from "@midwayjs/orm";
+import { Repository } from "typeorm";
+import { UserEntity } from "../entity/user.entity";
 
 @Provide()
 export class UserService {
@@ -32,9 +32,21 @@ export class UserService {
    * @param password {String} 用户密码
    */
   async saveUserEntity(username, password): Promise<number> {
-    let user = new UserEntity({ username, password });
+    let user = new UserEntity();
+    user.password = password;
+    user.username = username;
+
     try {
-      user = await this.userModel.save(user);
+      let oldUser = null;
+      oldUser = await this.userModel.findOne({
+        where: {
+          username,
+        },
+      });
+      if (!oldUser) {
+        user = await this.userModel.save(user);
+      }
+      throw new Error("用户存在！");
     } catch (error) {
       console.dir(error);
     }

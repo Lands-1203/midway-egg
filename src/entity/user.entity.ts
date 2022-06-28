@@ -3,10 +3,6 @@ import { Column, PrimaryGeneratedColumn } from "typeorm";
 
 @EntityModel("userEntity")
 export class UserEntity {
-  constructor({ username, password, id }) {
-    this.username = username;
-    this.password = password;
-  }
   @PrimaryGeneratedColumn({
     type: "int",
     name: "id",
